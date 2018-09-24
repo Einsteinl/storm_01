@@ -1,6 +1,12 @@
 package cn.bigdata.storm.kafka.simple;
 
+import kafka.javaapi.producer.Producer;
+import kafka.producer.KeyedMessage;
+
+import kafka.producer.ProducerConfig;
+
 import java.util.Properties;
+import java.util.UUID;
 
 /**
  * 这是一个简单的kafka producer代码
@@ -33,7 +39,7 @@ public class KafkaProducerSimple {
         /*
             kafka broker对应的主机，格式为host1:port1,host2:port2
          */
-        props.put("metadata.broker.list", "mini1:9092,mini2:9092,mini3:9092")
+        props.put("metadata.broker.list", "mini1:9092,mini2:9092,mini3:9092");
 
         /*
          * request.required.acks,设置发送数据是否需要服务端的反馈,有三个值0,1,-1
@@ -55,12 +61,33 @@ public class KafkaProducerSimple {
             用来把消息分到各个partition中，默认行为是对key进行hash
          */
 
-        props.put("partitioner.class","");
+        props.put("partitioner.class","cn.bigdata.storm.kafka.simple.MyLogPartitioner");
         //        props.put("partitioner.class", "kafka.producer.DefaultPartitioner");
 
         /**
          * 3、通过配置文件，创建生产者
          */
 
+        Producer<String, String> producer = new Producer<String, String>(new ProducerConfig(props));
+        /**
+         * 4、通过for循环生产数据
+         */
+        for (int messageNo = 1; messageNo < 100000; messageNo++) {
+//            String messageStr = new String(messageNo + "注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发注意：这里需要指定 partitionKey，" +
+//                    "注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发" +
+//                    "注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发" +
+//                    "注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发" +
+//                    "注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发" +
+//                    "注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发" +
+//                    "注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发" +
+//                    "注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发" +
+//                    "用来配合自定义的MyLogPartitioner进行数据分发");
+
+            /**
+             * 5、调用producer的send方法发送数据
+             * 注意：这里需要指定 partitionKey，用来配合自定义的MyLogPartitioner进行数据分发
+             */
+            producer.send(new KeyedMessage<String, String>(TOPIC, messageNo + "", "appid" + UUID.randomUUID() + "itcast"));
+        }
     }
 }

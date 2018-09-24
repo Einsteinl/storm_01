@@ -10,7 +10,7 @@ public class MyLogPartitioner implements Partitioner {
 
     private static Logger logger= Logger.getLogger(MyLogPartitioner.class);
 
-    public  MyLogPartitioner(VerifiableProperties ){
+    public  MyLogPartitioner(VerifiableProperties props){
 
     }
 
