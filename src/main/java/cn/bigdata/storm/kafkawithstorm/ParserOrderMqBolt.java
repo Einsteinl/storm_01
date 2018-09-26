@@ -17,6 +17,7 @@ import java.util.Map;
 public class ParserOrderMqBolt extends BaseRichBolt {
 
     private JedisPool pool;
+    
 
     @Override
     public void prepare(Map map, TopologyContext topologyContext, OutputCollector outputCollector) {
@@ -77,10 +78,15 @@ public class ParserOrderMqBolt extends BaseRichBolt {
         //index:productID:info---->Map
         //  productId-----<各个业务线，各个品类，各个店铺，各个品牌，每个商品>
         Map<String,String> map=new HashMap<>();
+        //网站
         map.put("b","3c");
+        //品类
         map.put("c","phone");
+        //店铺
         map.put("s","121");
+        //品牌
         map.put("p","iphone");
+        //商品
         map.put("p","iphone");
         return map.get(type);
     }

@@ -18,12 +18,12 @@ public class OrderMaSender {
 
         Producer<String,String> producer=new Producer<String, String>(new ProducerConfig(props));
         for (int messageNo=1;messageNo<100000;messageNo++){
-            producer.send(new KeyedMessage<String, String>(TOPIC,messageNo+"",new OrderInfo().random()));
-//            try {
-//                Thread.sleep(100);
-//            }catch (InterruptedException e){
-//                e.printStackTrace();
-//            }
+            producer.send(new KeyedMessage<String, String>(TOPIC,messageNo+"",new OrderInfo().random(String.valueOf(messageNo))));
+            try {
+                Thread.sleep(100);
+            }catch (InterruptedException e){
+                e.printStackTrace();
+            }
         }
     }
 }

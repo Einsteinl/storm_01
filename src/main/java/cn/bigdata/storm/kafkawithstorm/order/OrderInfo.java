@@ -169,8 +169,8 @@ public class OrderInfo implements Serializable {
                 '}';
     }
 
-    public String random() {
-        this.productId = "12121212";
+    public String random(String productId) {
+        this.productId = productId;
         this.orderId = UUID.randomUUID().toString().replaceAll("-", "");
         this.paymentId = UUID.randomUUID().toString().replaceAll("-", "");
         this.productPrice = new Random().nextInt(1000);
