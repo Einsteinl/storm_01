@@ -111,24 +111,29 @@ public class ParserOrderPracticeBolt extends BaseRichBolt {
         jedis.zincrby("p", orderInfo.getProductPrice(), pid);
 
         jedis.close();
-        if(Integer.parseInt(orderInfo.getProductId())>5000){
+        if(Integer.parseInt(orderInfo.getProductId())>500){
             //打印品类前三榜单
             Set<String> c_s = jedis.zrange("c",0,2);
+            System.out.println("品类前三榜单");
+            System.out.println("-----------------------------");
             for(String c:c_s){
-                System.out.println("品类前三榜单");
+
                 System.out.println(c+"  排名：" +jedis.zrank("c",c)+"，交易额："+jedis.zscore("c",c));
             }
 
             //打印店铺前三榜单
             Set<String> s_s = jedis.zrange("s",0,2);
+            System.out.println("店铺前三榜单");
+            System.out.println("-----------------------------");
             for(String s:s_s){
-                System.out.println("品类前三榜单");
+
                 System.out.println(s+"  排名" +jedis.zrank("s",s)+"，交易额："+jedis.zscore("s",s));
             }
             //打印品牌前三榜单
             Set<String> p_s = jedis.zrange("p", 0, 2);
+            System.out.println("品牌前三榜单");
+            System.out.println("-----------------------------");
             for(String p:p_s){
-                System.out.println("品类前三榜单");
                 System.out.println(p+"  排名" +jedis.zrank("p",p)+"，交易额："+jedis.zscore("p",p));
             }
         }
@@ -138,13 +143,13 @@ public class ParserOrderPracticeBolt extends BaseRichBolt {
     private String getBubyProductId(String productId,String type){
 
         int id = Integer.parseInt(productId);
-        if(id<2000){
+        if(id<200){
             return appMap.get(type);
-        }else if(id<4000){
+        }else if(id<400){
             return phoneMap.get(type);
-        }else if(id<6000){
+        }else if(id<600){
             return manMap.get(type);
-        }else if(id<8000){
+        }else if(id<800){
             return beautyMap.get(type);
         }else {
             return automobileMap.get(type);
