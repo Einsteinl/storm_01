@@ -50,6 +50,7 @@ public class KafkaConsumerSimple implements Runnable {
 
 
     public static void main(String[] args) {
+        //1、配置参数
         Properties props=new Properties();
         props.put("group.id","dashuju");
         props.put("zookeeper.connect","mini1:2181,mini2:2181,mini3:2181");
@@ -67,6 +68,7 @@ public class KafkaConsumerSimple implements Runnable {
         //定义一个map
         Map<String,Integer> topicCountMap=new HashMap<>();
 
+        //告诉kafka用多少个线程来消费该topic
         topicCountMap.put(topic1,3);
         //Map<String,List<KafkaStream<byte[],byte[]>>> 中String是topic，List<KafkaStream<byte[],byte[]>>是对应的流
         Map<String,List<KafkaStream<byte[],byte[]>>> topicStreamMap=consumerConn.createMessageStreams(topicCountMap);
@@ -74,7 +76,7 @@ public class KafkaConsumerSimple implements Runnable {
         //取出 'kafkaTest' 对应的streams
         List<KafkaStream<byte[],byte[]>> streams=topicStreamMap.get(topic1);
 
-        //创建一个容量为4的线程池
+        //创建一个容量为4的线程池  指定几个消费者
         ExecutorService executor=Executors.newFixedThreadPool(3);
 
         //创建20个consumer threads
