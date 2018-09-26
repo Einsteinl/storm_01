@@ -5,10 +5,13 @@ import backtype.storm.task.TopologyContext;
 import backtype.storm.topology.OutputFieldsDeclarer;
 import backtype.storm.topology.base.BaseRichBolt;
 import backtype.storm.tuple.Tuple;
+import cn.bigdata.storm.kafkawithstorm.order.OrderInfo;
+import com.google.gson.Gson;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class ParserOrderMqBolt extends BaseRichBolt {
@@ -44,11 +47,42 @@ public class ParserOrderMqBolt extends BaseRichBolt {
     @Override
     public void execute(Tuple tuple) {
 
-        //Jedis jedis=pool.getResource();
+//        String string=new String((byte[]) tuple.getValue(0));
+//        System.out.println(string);
+
+        Jedis jedis=pool.getResource();
         //获取kafkaSpout发送过来的数据，是一个json
         String string=new String((byte[]) tuple.getValue(0));
-        System.out.println(string);
 
+        //解析json
+        OrderInfo orderInfo=(OrderInfo) new Gson().fromJson(string,OrderInfo.class);
+
+        //整个网站，各个业务线，各个品类，各个店铺，各个品牌，每个商品
+        //获取整个网站的金额统计指标
+        //String totalAmount=jedis.get("totalAmount");
+        jedis.incrBy("totalAmount",orderInfo.getProductPrice());
+
+        //获取商品所属业务线的指标信息
+        String bid=getBubyProductId(orderInfo.getProductId(),"b");
+
+        //String bAmout=jedis.get(bid+"Amout");
+        jedis.incrBy(bid+"Amount",orderInfo.getProductPrice());
+
+        jedis.close();
+
+    }
+
+    private String getBubyProductId(String productId,String type){
+        //        key:value
+        //index:productID:info---->Map
+        //  productId-----<各个业务线，各个品类，各个店铺，各个品牌，每个商品>
+        Map<String,String> map=new HashMap<>();
+        map.put("b","3c");
+        map.put("c","phone");
+        map.put("s","121");
+        map.put("p","iphone");
+        map.put("p","iphone");
+        return map.get(type);
     }
 
     @Override

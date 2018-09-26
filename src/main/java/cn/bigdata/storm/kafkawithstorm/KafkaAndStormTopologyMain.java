@@ -17,7 +17,7 @@ public class KafkaAndStormTopologyMain {
         topologyBuilder.setSpout(
                 "kafkaSpout",
                 new KafkaSpout(new SpoutConfig(new ZkHosts("mini1:2181,mini2:2181,mini3:2181"),
-                        "test",
+                        "orderMQ",
                         "/myKafka",
                         "kafkaSpout")),1);
         topologyBuilder.setBolt("mybolt1",new ParserOrderMqBolt(),1).shuffleGrouping("kafkaSpout");
