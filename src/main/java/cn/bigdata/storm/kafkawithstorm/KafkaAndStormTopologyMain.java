@@ -6,6 +6,7 @@ import backtype.storm.StormSubmitter;
 import backtype.storm.generated.AlreadyAliveException;
 import backtype.storm.generated.InvalidTopologyException;
 import backtype.storm.topology.TopologyBuilder;
+import cn.bigdata.storm.kafkawithstorm.order.ParserOrderPracticeBolt;
 import storm.kafka.KafkaSpout;
 import storm.kafka.SpoutConfig;
 import storm.kafka.ZkHosts;
@@ -20,7 +21,7 @@ public class KafkaAndStormTopologyMain {
                         "orderMQ",
                         "/myKafka",
                         "kafkaSpout")),1);
-        topologyBuilder.setBolt("mybolt1",new ParserOrderMqBolt(),1).shuffleGrouping("kafkaSpout");
+        topologyBuilder.setBolt("mybolt1",new ParserOrderPracticeBolt(),1).shuffleGrouping("kafkaSpout");
 
         Config config=new Config();
         config.setNumWorkers(1);
