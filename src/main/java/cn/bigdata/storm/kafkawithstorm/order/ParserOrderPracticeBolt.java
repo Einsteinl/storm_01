@@ -112,29 +112,31 @@ public class ParserOrderPracticeBolt extends BaseRichBolt {
 
         jedis.close();
         if(Integer.parseInt(orderInfo.getProductId())>500){
+            int rank=1;
             //打印品类前三榜单
             Set<String> c_s = jedis.zrevrange("c",0,2);
             System.out.println("品类前三榜单");
             System.out.println("-----------------------------");
             for(String c:c_s){
 
-                System.out.println(c+"  排名：" +jedis.zrank("c",c)+1+"，交易额："+jedis.zscore("c",c));
+                System.out.println(c+"  排名：" +rank+++"，交易额："+jedis.zscore("c",c));
             }
-
+            rank=1;
             //打印店铺前三榜单
             Set<String> s_s = jedis.zrevrange("s",0,2);
             System.out.println("店铺前三榜单");
             System.out.println("-----------------------------");
             for(String s:s_s){
 
-                System.out.println(s+"  排名" +jedis.zrank("s",s)+1+"，交易额："+jedis.zscore("s",s));
+                System.out.println(s+"  排名" +rank+++"，交易额："+jedis.zscore("s",s));
             }
+            rank=1;
             //打印品牌前三榜单
             Set<String> p_s = jedis.zrevrange("p", 0, 2);
             System.out.println("品牌前三榜单");
             System.out.println("-----------------------------");
             for(String p:p_s){
-                System.out.println(p+"  排名" +jedis.zrank("p",p)+1+"，交易额："+jedis.zscore("p",p));
+                System.out.println(p+"  排名" +rank+++"，交易额："+jedis.zscore("p",p));
             }
         }
 
